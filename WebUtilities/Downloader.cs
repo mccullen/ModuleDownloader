@@ -53,6 +53,9 @@ namespace WebUtilities
 						string clipName = clips[iClip].FindElement(By.TagName("h3")).Text;
 						clipName = string.Join("", clipName.Split(Path.GetInvalidFileNameChars()));
 						clips[iClip].Click(); // open the current clip
+						// Wait for video to begin playing.
+						WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+						wait.Until<bool>(d => d.FindElements(By.ClassName("vjs-playing")).Count > 0);
 						// Get source of the clip
 						IWebElement video = driver.FindElement(By.TagName("video"));
 						string src = video.GetAttribute("src");
