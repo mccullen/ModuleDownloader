@@ -42,7 +42,23 @@ namespace WebUtilities
 				for (int iModule = 0; iModule < modules.Count; ++iModule)
 				{
 					string moduleName = modules[iModule].FindElement(By.CssSelector("header h2")).Text;
-					courseDirectory.CreateSubdirectory((iModule + 1) + " - " + moduleName);
+					moduleName = string.Join("", moduleName.Split(Path.GetInvalidPathChars()));
+					DirectoryInfo moduleDirectory = courseDirectory.CreateSubdirectory((iModule + 1) + " - " + moduleName);
+
+					// Get the clipes in each module
+					IList<IWebElement> clips = modules[iModule].FindElements(By.CssSelector("ul.clips li"));
+					modules[iModule].Click(); // open the module
+					for (int iClip = 0; iClip < clips.Count; ++iClip)
+					{
+						string clipName = clips[iClip].FindElement(By.TagName("h3")).Text;
+						clipName = string.Join("", clipName.Split(Path.GetInvalidFileNameChars()));
+						clips[iClip].Click(); // open the current clip
+						// Get source of the clip
+						IWebElement video = driver.FindElement(By.TagName("video"));
+						string src = video.GetAttribute("src");
+						string filename = Path.Combine(moduleDirectory.FullName, (iClip + 1) + " - " + clipName + ".mp4");
+						DownloadFile(src, filename);
+					}
 				}
 			}
 			Console.WriteLine("Finished");
