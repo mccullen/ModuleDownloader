@@ -15,16 +15,18 @@ namespace ModuleDownloader
 	{
 		static void Main(string[] args)
 		{
-			DownloadModule();
+			DownloadCourse();
 
 			Console.ReadLine();
 		}
 
-		private static void DownloadModule()
+		private static void DownloadCourse()
 		{
 			Downloader downloader = new Downloader();
 
-			downloader.DownloadModule();
+			Console.Write("Ender directory name: ");
+			string directoryName = Console.ReadLine();
+			downloader.DownloadCourse(directoryName);
 
 			Console.ReadLine();
 		}
