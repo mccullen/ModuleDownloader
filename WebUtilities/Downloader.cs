@@ -27,7 +27,7 @@ namespace WebUtilities
 		public void DownloadCourse(string directoryName)
 		{
 			// Create directory to store course
-			//Directory.CreateDirectory(directoryName);
+			DirectoryInfo courseDirectory = Directory.CreateDirectory(directoryName);
 
 			using (IWebDriver driver = new ChromeDriver())
 			{
@@ -39,10 +39,10 @@ namespace WebUtilities
 				// Get the modules
 				driver.SwitchTo().Window(driver.WindowHandles[1]);
 				IList<IWebElement> modules = driver.FindElements(By.ClassName("module"));
-				foreach (IWebElement module in modules)
+				for (int iModule = 0; iModule < modules.Count; ++iModule)
 				{
-					IWebElement element = module.FindElement(By.TagName("h2"));
-					Console.WriteLine(element.Text);
+					string moduleName = modules[iModule].FindElement(By.CssSelector("header h2")).Text;
+					courseDirectory.CreateSubdirectory((iModule + 1) + " - " + moduleName);
 				}
 			}
 			Console.WriteLine("Finished");
