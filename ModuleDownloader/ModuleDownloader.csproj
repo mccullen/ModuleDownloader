@@ -50,7 +50,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ModuleDownloader.Core\WebUtilities.csproj">
+    <ProjectReference Include="..\WebUtilities\WebUtilities.csproj">
       <Project>{828ebbc0-cfb4-4817-913b-54c35d7a2c3c}</Project>
       <Name>WebUtilities</Name>
     </ProjectReference>
